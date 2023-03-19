@@ -37,9 +37,9 @@ def should_execute(prompt):
 
 def execute_natural_language_command(nl_command, force_execution, language="en"):
     if language == "zh":
-        prompt = f"將以下自然語言命令翻譯成Linux命令：{nl_command}"
+        prompt = f"將以下自然語言命令翻譯成Linux命令，並在多個命令之間使用分號分隔：{nl_command}"
     else:
-        prompt = f"Translate the following natural language command to a Linux command: {nl_command}"
+        prompt = f"Translate the following natural language command to a Linux command, using semicolons to separate multiple commands: {nl_command}"
 
     linux_command = generate_gpt4_response(prompt, language)
 

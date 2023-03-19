@@ -1244,4 +1244,30 @@ def main(language):
 
 ***
 
-Exported on 2023年3月19日 上午9:22.
+**Human:**
+有時候多重命令輸出時會沒有分號，請確保這件事情能嚴謹的被解決，以更新prompts的方式處理 原始的是if language == "zh":
+        prompt = f"將以下自然語言命令翻譯成Linux命令：{nl_command}"
+    else:
+        prompt = f"Translate the following natural language command to a Linux command: {nl_command}"
+
+
+***
+
+**Assistant:**
+
+為了確保多個命令之間使用分號分隔，您可以在原始提示中添加一些說明。以下是更新後的提示：
+
+```
+if language == "zh":
+    prompt = f"將以下自然語言命令翻譯成Linux命令，並在多個命令之間使用分號分隔：{nl_command}"
+else:
+    prompt = f"Translate the following natural language command to a Linux command, using semicolons to separate multiple commands: {nl_command}"
+
+```
+
+這樣，GPT-4 在生成命令時會更有可能在多個命令之間添加分號。但請注意，這種方法不能保證 GPT-4 在所有情況下都會正確添加分號。在使用生成的命令時，仍需要留意命令之間的分隔符。
+
+
+***
+
+Exported on 2023年3月19日 上午9:26.
