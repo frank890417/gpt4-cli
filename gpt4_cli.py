@@ -51,7 +51,7 @@ def execute_natural_language_command(nl_command, force_execution, language="en")
 
 
 def main(language):
-    if args.interactive:
+    if args.interactive or args.command is None:
         print("Enter 'q' or 'quit' to exit the interactive mode.")
         while True:
             nl_command = input("> ")
