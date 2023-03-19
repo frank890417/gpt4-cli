@@ -35,30 +35,46 @@ def should_execute(prompt):
         else:
             print("Invalid input. Please enter 'y' or 'n'.")
 
+def execute_natural_language_command(nl_command, force_execution, language="en"):
+    if language == "zh":
+        prompt = f"將以下自然語言命令翻譯成Linux命令：{nl_command}"
+    else:
+        prompt = f"Translate the following natural language command to a Linux command: {nl_command}"
+
+    linux_command = generate_gpt4_response(prompt, language)
+
+    if force_execution or should_execute(linux_command):
+        # Execute the obtained Linux command
+        os.system(linux_command)
+    else:
+        print("Command not executed.")
+
+
 def main(language):
-    print("Enter 'q' or 'quit' to exit the interactive mode.")
-    while True:
-        nl_command = input("> ")
+    if args.interactive:
+        print("Enter 'q' or 'quit' to exit the interactive mode.")
+        while True:
+            nl_command = input("> ")
 
-        if nl_command.lower() in ["q", "quit"]:
-            break
+            if nl_command.lower() in ["q", "quit"]:
+                break
 
-        if language == "zh":
-            prompt = f"将以下自然语言命令翻译成Linux命令：{nl_command}"
+            execute_natural_language_command(nl_command, args.force, language)
+    else:
+        if args.command is not None:
+            execute_natural_language_command(args.command, args.force, language)
         else:
-            prompt = f"Translate the following natural language command to a Linux command: {nl_command}"
+            print("Error: No command provided. Use --interactive or --i or provide a command.")
 
-        linux_command = generate_gpt4_response(prompt, language)
-
-        if should_execute(linux_command):
-            # 执行获取的Linux指令
-            os.system(linux_command)
-        else:
-            print("Command not executed.")
+            
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Command line utility to interact with GPT-4 using natural language.")
+    parser = argparse.ArgumentParser(description="GPT-4 CLI tool for executing terminal commands with natural language")
+    parser.add_argument("command", type=str, nargs="?", help="Natural language command", default=None)
+    parser.add_argument("-f", "--force", action="store_true", help="Force execution without confirmation")
+    parser.add_argument("-i", "--interactive", action="store_true", help="Enter interactive mode for continuous input")
     parser.add_argument("-l", "--language", type=str, default="en", help="The input language for natural language commands. Supported languages: en (English), zh (Simplified Chinese). Default is en.")
+
     args = parser.parse_args()
 
     if args.language not in ["en", "zh"]:
