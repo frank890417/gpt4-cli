@@ -10,7 +10,7 @@
 GPT-4 CLI 是一個基於 Python 開發的命令列工具。它利用了 OpenAI 的 GPT-4 模型，將你輸入的自然語言轉換成對應的終端機指令。例如，當你想創建一個名為 `test_folder` 的資料夾時，只需輸入：
 
 ```
-please create a new folder named test_folder
+please "create a new folder named test_folder"
 
 ```
 
