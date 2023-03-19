@@ -1270,4 +1270,40 @@ else:
 
 ***
 
-Exported on 2023年3月19日 上午9:26.
+**Human:**
+請把gpt4當下執行資料的檔案與結構，當成參考資料送出，優化產生的命令更符合使用
+
+
+***
+
+**Assistant:**
+
+要將 GPT-4 當前執行的檔案和結構作為參考資料，您可以使用 `os` 模塊獲取當前目錄的檔案和資料夾列表。然後將此列表添加到提示中，以便 GPT-4 能夠生成更符合實際情況的命令。以下是使用當前目錄檔案和結構更新提示的方法：
+
+```
+import os
+
+def get_current_directory_structure():
+    files_and_folders = os.listdir()
+    directories = [d for d in files_and_folders if os.path.isdir(d)]
+    files = [f for f in files_and_folders if os.path.isfile(f)]
+
+    directory_structure = f"Directories: {', '.join(directories)}\nFiles: {', '.join(files)}"
+    return directory_structure
+
+# 在主函數或需要生成提示的地方
+current_directory_structure = get_current_directory_structure()
+
+if language == "zh":
+    prompt = f"將以下自然語言命令翻譯成Linux命令，並在多個命令之間使用分號分隔：{nl_command}\n當前目錄結構：\n{current_directory_structure}\n"
+else:
+    prompt = f"Translate the following natural language command to a Linux command, using semicolons to separate multiple commands: {nl_command}\nCurrent directory structure:\n{current_directory_structure}\n"
+
+```
+
+這段程式碼首先定義了一個 `get_current_directory_structure` 函數，用於獲取當前目錄的檔案和資料夾列表。然後將這些列表合併成一個簡單的字串，以便將其添加到提示中。這樣，GPT-4 將能夠根據當前目錄結構生成更合適的命令。
+
+
+***
+
+Exported on 2023年3月19日 上午9:53.

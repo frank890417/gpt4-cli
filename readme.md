@@ -1,5 +1,7 @@
 # GPT-4 Command Line Interface
 
+![](demo.png)
+
 A simple command line tool for interacting with GPT-4 using natural language.
 
 ## Installation

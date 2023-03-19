@@ -35,12 +35,24 @@ def should_execute(prompt):
         else:
             print("Invalid input. Please enter 'y' or 'n'.")
 
-def execute_natural_language_command(nl_command, force_execution, language="en"):
-    if language == "zh":
-        prompt = f"將以下自然語言命令翻譯成Linux命令，並在多個命令之間使用分號分隔：{nl_command}"
-    else:
-        prompt = f"Translate the following natural language command to a Linux command, using semicolons to separate multiple commands: {nl_command}"
 
+def get_current_directory_structure():
+    files_and_folders = os.listdir()
+    directories = [d for d in files_and_folders if os.path.isdir(d)]
+    files = [f for f in files_and_folders if os.path.isfile(f)]
+
+    directory_structure = f"Directories: {', '.join(directories)}\nFiles: {', '.join(files)}"
+    return directory_structure
+
+# 在主函數或需要生成提示的地方
+current_directory_structure = get_current_directory_structure()
+
+def execute_natural_language_command(nl_command, force_execution, language="en"):
+        
+    if language == "zh":
+        prompt = f"將以下自然語言命令翻譯成Linux命令，並在多個命令之間使用分號分隔：{nl_command}\n。The following content does not affect the command line behavior. If the command requires file operations, the current directory structure is as follows: \n{current_directory_structure}\n"
+    else:
+        prompt = f"Translate the following natural language command to a Linux command, using semicolons to separate multiple commands: {nl_command}\n. The following content does not affect the command line behavior. If the command requires file operations, the current directory structure is as follows:\n{current_directory_structure}\n"
     linux_command = generate_gpt4_response(prompt, language)
 
     if force_execution or should_execute(linux_command):
