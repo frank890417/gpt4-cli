@@ -56,6 +56,8 @@ def execute_natural_language_command(nl_command, force_execution, language="en")
     linux_command = generate_gpt4_response(prompt, language)
 
     if force_execution or should_execute(linux_command):
+        if (force_execution):
+            print(linux_command)
         # Execute the obtained Linux command
         os.system(linux_command)
     else:
